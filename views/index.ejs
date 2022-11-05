@@ -4,12 +4,16 @@
  *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
  *-------------------------------------------------------------------------------------------- -->
 
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/css/w3.css" rel="stylesheet" type="text/css">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+
     <script src="https://apis.google.com/js/api:client.js"></script>
     <title>VLC OneKey</title>
 
@@ -18,42 +22,97 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://vlconekey.com/" />
     <meta property="og:image" content="/images/OneKey_Banner.png" />
-    <meta property="og:description" content="VLC OneKey is the most secure and effective way of verifying VLC students on Discord. 
+    <meta
+      property="og:description"
+      content="VLC OneKey is the most secure and effective way of verifying VLC students on Discord. 
 
-VLC OneKey is student-built and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC. The VLC name, logo, and all other branding are property of the Virtual Learning Center." />
+VLC OneKey is student-built and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC. The VLC name, logo, and all other branding are property of the Virtual Learning Center."
+    />
     <meta name="theme-color" content="#2196F3" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    <link rel="shortcut icon" href="/favicon/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
 
     <script>
-        const discordCompleted = '<%- JSON.stringify(discordCompleted) %>' === "true";
-        const error = "<%- error %>";
-        const googleSecret = "<%- googleSecret %>"; 
+      const discordCompleted =
+        "<%- JSON.stringify(discordCompleted) %>" === "true";
+      const error = "<%- error %>";
+      const googleSecret = "<%- googleSecret %>";
     </script>
-</head>
+  </head>
 
-<body class="w3-black" style="text-align: center;">
-    <div class="w3-display-middle w3-padding-small w3-quarter">
-        <img class="w3-image w3-margin-bottom" src="/images/OneKey_Wordmark.png" alt="VLC OneKey" />
-        <div id="error-card" class="w3-hide w3-panel w3-round-large w3-padding w3-margin-bottom" style="background-color: #db3236;">
-            <h5 id="error-box"></h5>
+  <body
+    class="bg-black text-white text-center flex justify-center items-center h-screen flex-col"
+  >
+    <div class="">
+      <img
+        class="image mb-4"
+        src="/images/OneKey_Wordmark.png"
+        alt="VLC OneKey"
+      />
+      <div
+        id="error-card"
+        class="hidden bg-red-600 p-5 h-1/2 mx-auto my-4 rounded-xl lg:w-1/4 md:w-1/2 w-10/12"
+      >
+        <h5 id="error-box"></h5>
+      </div>
+      <div
+        id="card"
+        class="bg-blue-600 p-5 m-3 h-1/2 mx-auto my-4 rounded-xl lg:w-1/4 md:w-1/2 w-10/12"
+      >
+        <p>
+          To verify, sign in with your VLC Gmail account and your Discord
+          account.
+        </p>
+        <div class="grid m-5">
+          <button
+            class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3"
+            id="google-button"
+          >
+            VLC Gmail
+          </button>
+          <button
+            class="hidden bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3"
+            id="discord-button"
+            disabled
+          >
+            Discord
+          </button>
         </div>
-        <div id="card" class="w3-panel w3-round-large w3-blue w3-padding-large">
-            <p>To verify, sign in with your VLC Gmail account and your Discord account.</p>
-            <button class="w3-btn w3-block w3-round-large w3-margin-bottom w3-padding-large w3-black" id="google-button">VLC Gmail</button>
-            <button class="w3-btn w3-block w3-round-large w3-margin-bottom w3-padding-large w3-black w3-disabled" id="discord-button" disabled>Discord</button>
-            <a style="text-decoration: unset" target=_blank href="http://docs.vlconekey.com"><p style="font-size:12px;opacity:77%;"><em>VLC OneKey is student-built and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC. The VLC name, logo, and all other branding are property of the Virtual Learning Center.</em></p></a>
-        </div>
+        <a target="_blank" href="http://docs.vlconekey.com"
+          ><p class="no-underline opacity-70 text-xs">
+            <em
+              >VLC OneKey is student-built and not school-sanctioned, and is not
+              in any way affiliated with or endorsed by the VLC. The VLC name,
+              logo, and all other branding are property of the Virtual Learning
+              Center.</em
+            >
+          </p></a
+        >
+      </div>
     </div>
     <script src="js/page.js"></script>
-</body>
+  </body>
 </html>
