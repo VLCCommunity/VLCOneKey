@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "contributors": [
     "Yusuf Rahman @notyusufr",
-    "@TheRedstoneRadiant"
+    "@TheRedstoneRadiant",
+    "Eesa Zahed @eesazahed"
   ],
   "dependencies": {
     "@discordjs/rest": "^0.2.0-canary.0",
@@ -18,10 +19,12 @@
   "scripts": {
     "start": "node .",
     "dev": "env $(cat .env) node .",
-    "register": "env $(cat .env) node bot/registerCommands.js"
+    "register": "env $(cat .env) node bot/registerCommands.js",
+    "format": "npx prettier --write ."
   },
   "main": "index.js",
   "devDependencies": {
-    "node": "^16.18.0"
+    "node": "^16.18.0",
+    "prettier": "^2.7.1"
   }
 }
