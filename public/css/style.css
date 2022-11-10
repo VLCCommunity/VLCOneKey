@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#error-card {
+    background-color: #db3236;
+}
+
+#card a {
+    text-decoration: unset
+}
+
+#card a p {
+    font-size:12px;
+    opacity:77%;
+}
