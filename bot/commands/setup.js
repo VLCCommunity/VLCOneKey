@@ -10,11 +10,12 @@ const {
   guildsCollection,
   globals,
 } = require('../../index');
+const { PermissionsBitField } = require('discord.js');
 
 module.exports = async function (interaction) {
   if (
-    interaction.memberPermissions.has('ADMINISTRATOR') ||
-    interaction.user.id == globals.yusufID
+    interaction.memberPermissions.has(PermissionsBitField.Flags.Administrator) ||
+    globals.developers.includes(interaction.user.id)
   ) {
     try {
       let executeSubcommand = require(`./setupsubcommands/${interaction.options.getSubcommand()}`);

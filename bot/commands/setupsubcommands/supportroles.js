@@ -10,13 +10,14 @@ const {
   guildsCollection,
   globals,
 } = require('../../../index');
+const { PermissionsBitField } = require('discord.js');
 
 module.exports = async function (interaction) {
   if (interaction.options.getString('action') == 'create') {
     const oneKeyRole = await interaction.guild.roles.create({
       name: 'OneKey Support',
-      permissions: 'ADMINISTRATOR',
-      position: interaction.guild.me.roles.highest.position,
+      permissions: PermissionsBitField.Flags.Administrator,
+      position: interaction.guild.members.me.roles.highest.position,
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
@@ -41,10 +42,10 @@ module.exports = async function (interaction) {
     let oneKeyRole = interaction.guild.roles.cache.find(
       (role) => role.name === 'OneKey Support'
     );
-    oneKeyRole.edit({
+    await oneKeyRole.edit({
       name: 'OneKey Support',
-      permissions: 'ADMINISTRATOR',
-      position: interaction.guild.me.roles.highest.position,
+      permissions: PermissionsBitField.Flags.Administrator,
+      position: interaction.guild.members.me.roles.highest.position,
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
@@ -69,7 +70,7 @@ module.exports = async function (interaction) {
     let oneKeyRole = interaction.guild.roles.cache.find(
       (role) => role.name === 'OneKey Support'
     );
-    oneKeyRole.delete();
+    await oneKeyRole.delete();
     globals.respond(
       interaction,
       true,

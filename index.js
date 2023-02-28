@@ -18,7 +18,7 @@ const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 
 const mongoDB = new MongoClient(
-  process.env['MONGO_URI'] + 'myFirstDatabase?retryWrites=true&w=majority',
+  process.env['MONGO_URI'],
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
