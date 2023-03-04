@@ -22,16 +22,16 @@ module.exports = async function (member) {
 
   // ======== Sets nickname ========
 
-  try {
-    // Rename member if privacy mode disabled or is club server
-    if (isClubGuild || !mongoStudent.privacy) {
+  // Rename member if privacy mode disabled or is club server
+  if (isClubGuild || !mongoStudent.privacy) {
+    try {
       await member.setNickname(
         mongoStudent.name,
         '✅ Verified with VLC OneKey.'
       );
+    } catch {
+      // Cannot change nickname
     }
-  } catch {
-    // Cannot change nickname
   }
 
   // ======== Adds role ========
