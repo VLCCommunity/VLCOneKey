@@ -34,6 +34,28 @@ const commands = [
       },
     ],
   },
+  {
+    name: 'privacy',
+    description: 'Toggle privacy mode.',
+    options: [
+      {
+        type: 3,
+        name: 'setting',
+        description: 'Whether to enable or disable privacy mode.',
+        choices: [
+          {
+            name: 'Enable',
+            value: 'enable',
+          },
+          {
+            name: 'Disable',
+            value: 'disable',
+          },
+        ],
+        required: true,
+      },
+    ],
+  },
 ];
 
 client.on('ready', async () => {
