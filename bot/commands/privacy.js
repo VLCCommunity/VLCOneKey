@@ -88,7 +88,7 @@ module.exports = async function (interaction) {
           iconURL: discordClient.user.displayAvatarURL(),
           text: 'VLC OneKey | Verified once, verified forever.',
         },
-        color: 15548997,
+        color: 16705372,
       },
     ],
   });
