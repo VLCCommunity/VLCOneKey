@@ -5,7 +5,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 const {
-  discordClient,
   studentsCollection,
   guildsCollection,
   globals,
@@ -19,9 +18,20 @@ module.exports = async function (interaction) {
     '✅ Resetting nicknames of all members...'
   );
 
+  // Fetch guild from guildsCollection
+  const mongoGuild = await guildsCollection.findOne({
+    _id: interaction.guild.id,
+  });
+
+  // Check if guild is a club server
+  const isClubGuild = mongoGuild.clubName && mongoGuild.enrollmentLink;
+
   await interaction.guild.members.cache.each(async (member) => {
+    // Fetch student from studentsCollection
     let mongoStudent = await studentsCollection.findOne({ _id: member.id });
-    if (mongoStudent) {
+
+    // if student is verified and (privacy mode disabled or is club server)
+    if (mongoStudent && (isClubGuild || !mongoStudent.privacy)) {
       try {
         await member.setNickname(
           mongoStudent.name,

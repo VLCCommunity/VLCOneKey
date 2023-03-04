@@ -16,17 +16,25 @@ module.exports = async function (member) {
 
   if (mongoStudent == null) return;
 
+  let mongoGuild = await guildsCollection.findOne({ _id: member.guild.id });
+
+  const isClubGuild = mongoGuild.clubName && mongoGuild.enrollmentLink;
+
   // ======== Sets nickname ========
 
   try {
-    await member.setNickname(mongoStudent.name, '✅ Verified with VLC OneKey.');
+    // Rename member if privacy mode disabled or is club server
+    if (isClubGuild || !mongoStudent.privacy) {
+      await member.setNickname(
+        mongoStudent.name,
+        '✅ Verified with VLC OneKey.'
+      );
+    }
   } catch {
     // Cannot change nickname
   }
 
   // ======== Adds role ========
-
-  let mongoGuild = await guildsCollection.findOne({ _id: member.guild.id });
 
   if (mongoGuild == null) {
     globals.warn(`Guild settings not configured for **${member.guild.name}**.`);
@@ -63,7 +71,8 @@ module.exports = async function (member) {
 
   // ======== Sends DM notice about club enrollement for club servers ========
 
-  if (!mongoGuild.clubName && !mongoGuild.enrollmentLink) return;
+  if (!isClubGuild) return;
+
   try {
     member.send({
       embeds: [

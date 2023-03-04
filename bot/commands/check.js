@@ -10,12 +10,27 @@ const {
   guildsCollection,
   globals,
 } = require('../../index');
+const { PermissionsBitField } = require('discord.js');
 
 module.exports = async function (interaction) {
   const mongoStudent = await studentsCollection.findOne({
     _id: interaction.user.id,
   });
-  const anotherUser = interaction.options.data.length > 0;
+
+  // Fetch guild from guildsCollection
+  const mongoGuild = await guildsCollection.findOne({
+    _id: interaction.guild.id,
+  });
+
+  // Check if guild is a club server
+  const isClubGuild = mongoGuild.clubName && mongoGuild.enrollmentLink;
+
+  // Check for another user option
+  const anotherUser =
+    interaction.options.data.length > 0 &&
+    interaction.options.data[0].user.id != interaction.user.id;
+
+  // If user calling the command is verified
   if (mongoStudent) {
     if (!anotherUser) {
       await interaction.reply({
@@ -52,7 +67,24 @@ module.exports = async function (interaction) {
       let otherMongoStudent = await studentsCollection.findOne({
         _id: interaction.options.data[0].user.id,
       });
+
       if (otherMongoStudent != null) {
+        // Other student has privacy mode enabled and not club guild and not server administrator
+        if (
+          !isClubGuild &&
+          otherMongoStudent.privacy &&
+          !interaction.memberPermissions.has(
+            PermissionsBitField.Flags.Administrator
+          )
+        ) {
+          return await globals.respond(
+            interaction,
+            false,
+            '❌ Insufficient Permissions',
+            'Only server administators can see information about this user.'
+          );
+        }
+
         await interaction.reply({
           embeds: [
             {

@@ -12,10 +12,7 @@ const {
 } = require('../../index');
 
 module.exports = async function (interaction) {
-  if (
-    interaction.user.id != globals.yusufID &&
-    interaction.user.id != globals.ibrahimID
-  )
+  if (!globals.developers.includes(interaction.user.id))
     return globals.respond(
       interaction,
       false,

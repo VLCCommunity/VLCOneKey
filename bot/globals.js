@@ -4,15 +4,12 @@
  *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
  *--------------------------------------------------------------------------------------------*/
 
-const {
-  discordClient,
-  studentsCollection,
-  guildsCollection,
-} = require('../index');
+const { discordClient } = require('../index');
 
 const verifyLogsChannelID = '924353379302527016';
 const errorLogsChannelID = '953539238534713364';
 const guildLogsChannelID = '953539282591682560';
+const userLogsChannelID = '1081702211702247616';
 const commLogsChannelID = '884681312445812746';
 
 const yusufID = '218065068875579393'; // Yusuf Rahmn
@@ -127,16 +124,17 @@ const guild = async function (guild, description) {
 };
 
 module.exports = {
-  verifyLogsChannelID: verifyLogsChannelID,
-  errorLogsChannelID: errorLogsChannelID,
-  guildLogsChannelID: guildLogsChannelID,
-  commLogsChannelID: commLogsChannelID,
-  yusufID: yusufID,
-  ibrahimID: ibrahimID,
-  developers: developers,
-  respond: respond,
-  respondAgain: respondAgain,
-  warn: warn,
-  error: error,
-  guild: guild,
+  verifyLogsChannelID,
+  errorLogsChannelID,
+  guildLogsChannelID,
+  userLogsChannelID,
+  commLogsChannelID,
+  yusufID,
+  ibrahimID,
+  developers,
+  respond,
+  respondAgain,
+  warn,
+  error,
+  guild,
 };

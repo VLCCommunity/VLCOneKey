@@ -44,12 +44,12 @@ const commands = [
         description: 'Whether to enable or disable privacy mode.',
         choices: [
           {
-            name: 'Enabled',
-            value: 'enabled',
+            name: 'Enable',
+            value: 'enable',
           },
           {
-            name: 'Disabled',
-            value: 'disabled',
+            name: 'Disable',
+            value: 'disable',
           },
         ],
         required: true,
