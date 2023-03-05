@@ -4,7 +4,7 @@
  *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
  *--------------------------------------------------------------------------------------------*/
 
-const { discordClient, studentsCollection, globals } = require("../../index");
+const { discordClient, studentsCollection, guildsCollection, globals } = require("../../index");
 
 module.exports = async function (interaction) {
   const privacyEnabled = interaction.options.data[0].value === "enable";
