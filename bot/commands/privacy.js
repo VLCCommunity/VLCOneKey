@@ -4,10 +4,14 @@
  *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
  *--------------------------------------------------------------------------------------------*/
 
-const { discordClient, studentsCollection, globals } = require('../../index');
+const { discordClient, studentsCollection, globals } = require("../../index");
 
 module.exports = async function (interaction) {
-  const privacyEnabled = interaction.options.data[0].value === 'enable';
+  const privacyEnabled = interaction.options.data[0].value === "enable";
+
+  let mongoGuild = await guildsCollection.findOne({ _id: interaction.guild.id });
+
+  const isClubGuild = mongoGuild.clubName && mongoGuild.enrollmentLink;
 
   // fetch user from database
   let mongoStudent = await studentsCollection.findOne({
@@ -21,10 +25,10 @@ module.exports = async function (interaction) {
         {
           title: `❌ You are not verified.`,
           description:
-            'Click `Verify` to verify your identity as a VLC student.',
+            "Click `Verify` to verify your identity as a VLC student.",
           footer: {
             iconURL: discordClient.user.displayAvatarURL(),
-            text: 'VLC OneKey | Verified once, verified forever.',
+            text: "VLC OneKey | Verified once, verified forever.",
           },
           color: 15548997,
         },
@@ -35,9 +39,9 @@ module.exports = async function (interaction) {
           components: [
             {
               type: 2,
-              label: 'Verify',
+              label: "Verify",
               style: 5,
-              url: 'http://vlconekey.com/',
+              url: "http://vlconekey.com/",
             },
           ],
         },
@@ -60,16 +64,20 @@ module.exports = async function (interaction) {
     );
   }
 
-  // Reset member nickname if privacy set to enabled
-  if (privacyEnabled && interaction.member.nickname == mongoStudent.name) {
-    interaction.member.setNickname('');
+  // Reset member nickname if privacy set to enabled and not club guild
+  if (
+    privacyEnabled &&
+    !isClubGuild &&
+    interaction.member.nickname == mongoStudent.name
+  ) {
+    interaction.member.setNickname("");
   }
 
   // Respond to interaction
   await globals.respond(
     interaction,
     true,
-    '✅ Settings Updated',
+    "✅ Settings Updated",
     `Privacy mode is now ${interaction.options.data[0].value}d.`
   );
 
@@ -82,11 +90,11 @@ module.exports = async function (interaction) {
   userLogsChannel.send({
     embeds: [
       {
-        title: '⚠️ User Updated',
+        title: "⚠️ User Updated",
         description: `<@${mongoStudent._id}> has ${interaction.options.data[0].value}d privacy mode.`,
         footer: {
           iconURL: discordClient.user.displayAvatarURL(),
-          text: 'VLC OneKey | Verified once, verified forever.',
+          text: "VLC OneKey | Verified once, verified forever.",
         },
         color: 16705372,
       },
