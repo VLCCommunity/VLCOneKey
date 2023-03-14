@@ -17,13 +17,10 @@ const bodyParser = require('body-parser');
 
 const { MongoClient } = require('mongodb');
 
-const mongoDB = new MongoClient(
-  process.env['MONGO_URI'],
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+const mongoDB = new MongoClient(process.env['MONGO_URI'], {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // Connect to Mongo
 
@@ -48,12 +45,7 @@ const keyCollection = developerDB.collection('Api_Keys');
 // Discord
 
 const discordClient = new Client({
-  intents: [
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildModeration,
-    GatewayIntentBits.MessageContent
-  ],
+  intents: 32767,
 });
 
 discordClient.login(process.env['TOKEN']);
