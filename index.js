@@ -48,7 +48,7 @@ const keyCollection = developerDB.collection('Api_Keys');
 // Discord
 
 const discordClient = new Client({
-  intents: 32727,
+  intents: 7796, // All intents
 });
 
 discordClient.login(process.env['TOKEN']);
