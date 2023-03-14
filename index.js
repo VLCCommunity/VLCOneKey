@@ -6,7 +6,7 @@
 
 // Discord imports
 
-const { Client, Intents, Permissions } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 
 // Express imports
 
@@ -48,7 +48,12 @@ const keyCollection = developerDB.collection('Api_Keys');
 // Discord
 
 const discordClient = new Client({
-  intents: [7796],
+  intents: [
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.MessageContent
+  ],
 });
 
 discordClient.login(process.env['TOKEN']);
