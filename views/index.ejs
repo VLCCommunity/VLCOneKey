@@ -9,10 +9,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- CSS -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link href="/css/w3.css" rel="stylesheet" type="text/css">
     <link href="/css/tooltip.css" rel="stylesheet" type="text/css">
-    <script src="https://apis.google.com/js/api:client.js"></script>
+
+    <!-- Google SignIn -->
+    <script src="js/signin.js" defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload" data-client_id="<%- googleSecret %>" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
+
     <title>VLC OneKey</title>
 
     <!-- More Meta Tags -->
@@ -69,13 +76,12 @@ VLC OneKey is student-built and not school-sanctioned, and is not in any way aff
         </div>
         <div id="card" class="w3-panel w3-round-large w3-blue w3-padding-large">
             <p>To verify, sign in with your VLC Gmail account and your Discord account.</p>
-            <button class="w3-btn w3-block w3-round-large w3-margin-bottom w3-padding-large w3-black" id="google-button">VLC Gmail</button>
+            <button class="w3-btn w3-block w3-round-large w3-margin-bottom w3-padding-large w3-black" id="google-button" onclick="signin()">VLC Gmail<div class="g_id_signin"></div>
+     </button>
             <button class="w3-btn w3-block w3-round-large w3-margin-bottom w3-padding-large w3-black w3-disabled" id="discord-button" disabled>Discord</button>
             <p><a href="#" data-tooltip="If you're using an Incognito/Private Browsing tab, use to a normal tab instead. If not, try verifying on a different browser.">Having trouble verifying?</a></p>
             <a target=_blank href="http://docs.vlconekey.com"><p><em>VLC OneKey is student-built and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC. The VLC name, logo, and all other branding are property of the Virtual Learning Center.</em></p></a>
-            
         </div>
     </div>
-    <script src="js/page.js"></script>
   </body>
 </html>
