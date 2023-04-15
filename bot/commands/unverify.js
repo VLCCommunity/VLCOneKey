@@ -41,7 +41,7 @@ module.exports = async function (interaction) {
   );
 
   let filter = (m) =>
-    m.author.id == interaction.user.id && m.content === 'Yes.';
+    m.author.id == interaction.user.id;
   let confirmation = await interaction.channel.awaitMessages({
     filter,
     max: 4,

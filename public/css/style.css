@@ -16,3 +16,8 @@ body {
   font-size: 12px;
   opacity: 77%;
 }
+
+.g_id_signin {
+  display: none;
+  visibility: hidden;
+}
