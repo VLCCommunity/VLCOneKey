@@ -31,7 +31,7 @@ function handleCredentialResponse(credential) {
     response.text().then((text) => {
       if (response.status != 200) {
         raiseError(text);
-        googleButton.innerHTML = "VLC Gmail";
+        googleButton.childNodes[0].nodeValue =  = "VLC Gmail";
       } else {
         googleButton.classList.remove("w3-black");
         googleButton.classList.add("w3-green");
