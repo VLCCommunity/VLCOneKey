@@ -18,7 +18,7 @@ function handleCredentialResponse(credential) {
   const id_token = credential.credential;
   const googleButton = document.getElementById("google-button");
 
-  googleButton.innerHTML = "↻ Verifying...";
+  googleButton.childNodes[0].nodeValue = "↻ Verifying...";
   fetch(window.location.href, {
     method: "POST",
     headers: {
@@ -31,7 +31,7 @@ function handleCredentialResponse(credential) {
     response.text().then((text) => {
       if (response.status != 200) {
         raiseError(text);
-        googleButton.childNodes[0].nodeValue =  = "VLC Gmail";
+        googleButton.childNodes[0].nodeValue = "VLC Gmail";
       } else {
         googleButton.classList.remove("w3-black");
         googleButton.classList.add("w3-green");
@@ -52,10 +52,11 @@ function handleCredentialResponse(credential) {
 }
 
 const raiseError = (err) => {
-  document.getElementById("error-box").innerHTML = `ERROR: ${err}`;
+  document.getElementById("error-box").innerHTML = `${err}`;
   document.getElementById("error-card").classList.remove("w3-hide");
 };
 
+// Verified successfully
 if (discordCompleted) {
   const card = document.getElementById("card");
   card.classList.add("w3-padding-64", "w3-green", "w3-center");
@@ -63,6 +64,7 @@ if (discordCompleted) {
   card.innerHTML = "<h1>✅ Verified.</h1>";
 }
 
+// 400 Response code
 if (error) {
   raiseError(error);
 }
