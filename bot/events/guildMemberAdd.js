@@ -53,7 +53,7 @@ module.exports = async function (member) {
   // ======== Sends DM notification ========
 
   try {
-    member.send({
+    await member.send({
       embeds: [
         {
           description: `You have been automatically verified in **${member.guild.name}**.`,
@@ -74,7 +74,7 @@ module.exports = async function (member) {
   if (!isClubGuild) return;
 
   try {
-    member.send({
+    await member.send({
       embeds: [
         {
           title: 'Club Enrollment',
