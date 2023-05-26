@@ -20,7 +20,8 @@ router.get('/status', async (req, res) => {
   res.sendStatus(response.status);
 
   if (response.status != 200) {
-    exec('kill 1'); // restart repl
+    return;
+    // exec('kill 1'); // restart repl
   }
 });
 
