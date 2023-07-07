@@ -45,7 +45,7 @@ module.exports = async function (interaction) {
     await oneKeyRole.edit({
       name: 'OneKey Support',
       permissions: PermissionsBitField.Flags.Administrator,
-      position: interaction.guild.members.me.roles.highest.position,
+      position: interaction.guild.members.me.roles.highest.position - 1,
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
