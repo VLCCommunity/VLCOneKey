@@ -19,15 +19,15 @@ module.exports = async function (interaction) {
     ) ||
     globals.developers.includes(interaction.user.id)
   ) {
-    // try {
-    let executeSubcommand = require(`./setupsubcommands/${interaction.options.getSubcommand()}`);
-    await executeSubcommand(interaction);
-    // } catch (error) {
-    //   console.log(
-    //     `❌ Unable to execute ${interaction.options.getSubcommand()} setup subcommand. \n` +
-    //       error
-    //   );
-    // }
+    try {
+      let executeSubcommand = require(`./setupsubcommands/${interaction.options.getSubcommand()}`);
+      await executeSubcommand(interaction);
+    } catch (error) {
+      console.log(
+        `❌ Unable to execute ${interaction.options.getSubcommand()} setup subcommand. \n` +
+          error
+      );
+    }
   } else {
     await globals.respond(
       interaction,

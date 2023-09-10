@@ -43,6 +43,16 @@ module.exports = async function (interaction) {
     let oneKeyRole = interaction.guild.roles.cache.find(
       (role) => role.name === 'OneKey Support'
     );
+
+    if (!oneKeyRole) {
+      return globals.respond(
+        interaction,
+        false,
+        '❌ Support role does not exist!',
+        'Please create them using the `create` option.'
+      );
+    }
+
     const me = await interaction.guild.members.fetchMe();
     await oneKeyRole.edit({
       name: 'OneKey Support',
@@ -72,6 +82,16 @@ module.exports = async function (interaction) {
     let oneKeyRole = interaction.guild.roles.cache.find(
       (role) => role.name === 'OneKey Support'
     );
+
+    if (!oneKeyRole) {
+      return globals.respond(
+        interaction,
+        false,
+        '',
+        '❌ Support role does not exist!'
+      );
+    }
+
     await oneKeyRole.delete();
     globals.respond(
       interaction,
