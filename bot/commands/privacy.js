@@ -4,12 +4,19 @@
  *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
  *--------------------------------------------------------------------------------------------*/
 
-const { discordClient, studentsCollection, guildsCollection, globals } = require("../../index");
+const {
+  discordClient,
+  studentsCollection,
+  guildsCollection,
+  globals,
+} = require('../../index');
 
 module.exports = async function (interaction) {
-  const privacyEnabled = interaction.options.data[0].value === "enable";
+  const privacyEnabled = interaction.options.data[0].value === 'enable';
 
-  let mongoGuild = await guildsCollection.findOne({ _id: interaction.guild.id });
+  let mongoGuild = await guildsCollection.findOne({
+    _id: interaction.guild.id,
+  });
 
   const isClubGuild = mongoGuild.clubName && mongoGuild.enrollmentLink;
 
@@ -25,10 +32,10 @@ module.exports = async function (interaction) {
         {
           title: `❌ You are not verified.`,
           description:
-            "Click `Verify` to verify your identity as a VLC student.",
+            'Click `Verify` to verify your identity as a VLC student.',
           footer: {
             iconURL: discordClient.user.displayAvatarURL(),
-            text: "VLC OneKey | Verified once, verified forever.",
+            text: 'VLC OneKey | Verified once, verified forever.',
           },
           color: 15548997,
         },
@@ -39,9 +46,9 @@ module.exports = async function (interaction) {
           components: [
             {
               type: 2,
-              label: "Verify",
+              label: 'Verify',
               style: 5,
-              url: "http://vlconekey.com/",
+              url: 'http://vlconekey.com/',
             },
           ],
         },
@@ -70,14 +77,14 @@ module.exports = async function (interaction) {
     !isClubGuild &&
     interaction.member.nickname == mongoStudent.name
   ) {
-    interaction.member.setNickname("");
+    interaction.member.setNickname('');
   }
 
   // Respond to interaction
   await globals.respond(
     interaction,
     true,
-    "✅ Settings Updated",
+    '✅ Settings Updated',
     `Privacy mode is now ${interaction.options.data[0].value}d.`
   );
 
@@ -90,11 +97,11 @@ module.exports = async function (interaction) {
   userLogsChannel.send({
     embeds: [
       {
-        title: "⚠️ User Updated",
+        title: '⚠️ User Updated',
         description: `<@${mongoStudent._id}> has ${interaction.options.data[0].value}d privacy mode.`,
         footer: {
           iconURL: discordClient.user.displayAvatarURL(),
-          text: "VLC OneKey | Verified once, verified forever.",
+          text: 'VLC OneKey | Verified once, verified forever.',
         },
         color: 16705372,
       },

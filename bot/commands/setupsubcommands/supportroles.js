@@ -14,10 +14,11 @@ const { PermissionsBitField } = require('discord.js');
 
 module.exports = async function (interaction) {
   if (interaction.options.getString('action') == 'create') {
+    const me = await interaction.guild.members.fetchMe();
     const oneKeyRole = await interaction.guild.roles.create({
       name: 'OneKey Support',
       permissions: PermissionsBitField.Flags.Administrator,
-      position: interaction.guild.members.me.roles.highest.position,
+      position: me.roles.highest.position,
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
@@ -42,10 +43,11 @@ module.exports = async function (interaction) {
     let oneKeyRole = interaction.guild.roles.cache.find(
       (role) => role.name === 'OneKey Support'
     );
+    const me = await interaction.guild.members.fetchMe();
     await oneKeyRole.edit({
       name: 'OneKey Support',
       permissions: PermissionsBitField.Flags.Administrator,
-      position: interaction.guild.members.me.roles.highest.position - 1,
+      position: me.roles.highest.position - 1,
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });

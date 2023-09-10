@@ -82,23 +82,23 @@ discordClient.on('debug', (e) => {
 
 discordClient.on('interactionCreate', async (interaction) => {
   if (interaction.isCommand()) {
-    try {
-      let executeCommand = require(`./bot/commands/${interaction.commandName}`);
-      await executeCommand(interaction);
-    } catch (error) {
-      console.log(
-        `❌ Unable to execute ${interaction.commandName} command. \n` + error
-      );
-    }
+    // try {
+    let executeCommand = require(`./bot/commands/${interaction.commandName}`);
+    await executeCommand(interaction);
+    // } catch (error) {
+    //   console.log(
+    //     `❌ Unable to execute ${interaction.commandName} command. \n` + error
+    //   );
+    // }
   } else if (interaction.isButton()) {
-    try {
-      let executeButton = require(`./bot/buttons/${interaction.customId}`);
-      await executeButton(interaction);
-    } catch (error) {
-      console.log(
-        `❌ Unable to execute ${interaction.customId} button. \n` + error
-      );
-    }
+    // try {
+    let executeButton = require(`./bot/buttons/${interaction.customId}`);
+    await executeButton(interaction);
+    // } catch (error) {
+    //   console.log(
+    //     `❌ Unable to execute ${interaction.customId} button. \n` + error
+    //   );
+    // }
   }
 });
 

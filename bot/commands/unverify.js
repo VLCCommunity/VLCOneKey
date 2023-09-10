@@ -40,8 +40,7 @@ module.exports = async function (interaction) {
     )}:R>.\nType 'Yes.' within 5 seconds to confirm.`
   );
 
-  let filter = (m) =>
-    m.author.id == interaction.user.id;
+  let filter = (m) => m.author.id == interaction.user.id;
   let confirmation = await interaction.channel.awaitMessages({
     filter,
     max: 4,

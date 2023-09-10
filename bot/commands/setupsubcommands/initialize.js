@@ -12,9 +12,10 @@ const {
 } = require('../../../index');
 
 module.exports = async function (interaction) {
+  const me = await interaction.guild.members.fetchMe();
   if (
     interaction.options.get('verifiedrole').role.position >=
-    interaction.guild.me.roles.highest.position
+    me.roles.highest.position
   )
     return globals.respond(
       interaction,
