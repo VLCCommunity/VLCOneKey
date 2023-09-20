@@ -48,7 +48,7 @@ module.exports = async function (interaction) {
               type: 2,
               label: 'Verify',
               style: 5,
-              url: 'http://vlconekey.com/',
+              url: 'https://vlconekey.com/',
             },
           ],
         },

@@ -9,7 +9,7 @@ const router = express.Router();
 
 // VLC OneKey notion
 router.get('/info', (_req, res) => {
-  res.redirect('http://docs.vlconekey.com');
+  res.redirect('https://docs.vlconekey.com');
 });
 
 // Uptimerobot status
