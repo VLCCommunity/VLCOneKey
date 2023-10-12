@@ -137,8 +137,13 @@ router.post('/', async (req, res) => {
     );
 
     if (response.status != 200) {
-      exec('kill 1');
+      // Send server error status code
       res.sendStatus(500);
+
+      // Discord ban/ratelimit
+      if (response.status == 429) {
+        require('child_process').exec('kill 1');  // reset replit IP address
+      }
     }
 
     const user = await response.json();
