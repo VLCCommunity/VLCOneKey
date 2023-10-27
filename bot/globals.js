@@ -130,8 +130,6 @@ module.exports = {
   guildLogsChannelID,
   userLogsChannelID,
   commLogsChannelID,
-  yusufID,
-  ibrahimID,
   developers,
   respond,
   respondAgain,

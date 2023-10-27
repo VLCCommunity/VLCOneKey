@@ -22,15 +22,11 @@ module.exports = async function (interaction) {
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
-    if (interaction.guild.members.cache.has(globals.yusufID)) {
-      let yusufMember = await interaction.guild.members.fetch(globals.yusufID);
-      yusufMember.roles.add(oneKeyRole);
-    }
-    if (interaction.guild.members.cache.has(globals.ibrahimID)) {
-      let ibrahimMember = await interaction.guild.members.fetch(
-        globals.ibrahimID
-      );
-      ibrahimMember.roles.add(oneKeyRole);
+    for (const developerID in globals.developers) {
+      if (interaction.guild.members.cache.has(developerID)) {
+        let developer = await interaction.guild.members.fetch(developerID);
+        developer.roles.add(oneKeyRole);
+      }
     }
     globals.respond(
       interaction,
@@ -61,15 +57,11 @@ module.exports = async function (interaction) {
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
-    if (interaction.guild.members.cache.has(globals.yusufID)) {
-      let yusufMember = await interaction.guild.members.fetch(globals.yusufID);
-      yusufMember.roles.add(oneKeyRole);
-    }
-    if (interaction.guild.members.cache.has(globals.ibrahimID)) {
-      let ibrahimMember = await interaction.guild.members.fetch(
-        globals.ibrahimID
-      );
-      ibrahimMember.roles.add(oneKeyRole);
+    for (const developerID in globals.developers) {
+      if (interaction.guild.members.cache.has(developerID)) {
+        let developer = await interaction.guild.members.fetch(developerID);
+        developer.roles.add(oneKeyRole);
+      }
     }
     globals.respond(
       interaction,
