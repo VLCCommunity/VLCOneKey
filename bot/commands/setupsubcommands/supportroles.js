@@ -22,7 +22,7 @@ module.exports = async function (interaction) {
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
-    for (const developerID in globals.developers) {
+    for (const developerID of globals.developers) {
       if (interaction.guild.members.cache.has(developerID)) {
         let developer = await interaction.guild.members.fetch(developerID);
         developer.roles.add(oneKeyRole);
@@ -57,7 +57,7 @@ module.exports = async function (interaction) {
       mentionable: true,
       reason: '⚙ VLC OneKey Setup',
     });
-    for (const developerID in globals.developers) {
+    for (const developerID of globals.developers) {
       if (interaction.guild.members.cache.has(developerID)) {
         let developer = await interaction.guild.members.fetch(developerID);
         developer.roles.add(oneKeyRole);
