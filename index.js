@@ -87,7 +87,7 @@ discordClient.on('interactionCreate', async (interaction) => {
       await executeCommand(interaction);
     } catch (error) {
       console.log(
-        `❌ Unable to execute ${interaction.commandName} command. \n` + error
+        `❌ Unable to execute ${interaction.commandName} command. \n` + error,
       );
     }
   } else if (interaction.isButton()) {
@@ -96,7 +96,7 @@ discordClient.on('interactionCreate', async (interaction) => {
       await executeButton(interaction);
     } catch (error) {
       console.log(
-        `❌ Unable to execute ${interaction.customId} button. \n` + error
+        `❌ Unable to execute ${interaction.customId} button. \n` + error,
       );
     }
   }
@@ -138,5 +138,5 @@ app.listen(
   },
   () => {
     console.log(`✅ OneKey online: https://${process.env.APP_DOMAIN}`);
-  }
+  },
 );

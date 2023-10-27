@@ -14,7 +14,7 @@ module.exports = async function (interaction) {
       },
     })
     .limit(
-      interaction.options.data[0].value.includes('@virtuallearning.ca') ? 1 : 5
+      interaction.options.data[0].value.includes('@virtuallearning.ca') ? 1 : 5,
     )
     .sort({
       score: {

@@ -17,7 +17,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       '❌ Unauthorized',
-      'You must be an authorized OneKey developer to use this subcommand.'
+      'You must be an authorized OneKey developer to use this subcommand.',
     );
 
   let stamp = await interaction.channel.send({

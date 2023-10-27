@@ -32,12 +32,12 @@ module.exports = async function (interaction) {
       interaction,
       true,
       '',
-      '✅ Successfully created and added OneKey Support role.'
+      '✅ Successfully created and added OneKey Support role.',
     );
     globals.guild(interaction.guild, 'Support roles created.');
   } else if (interaction.options.getString('action') == 'repair') {
     let oneKeyRole = interaction.guild.roles.cache.find(
-      (role) => role.name === 'OneKey Support'
+      (role) => role.name === 'OneKey Support',
     );
 
     if (!oneKeyRole) {
@@ -45,7 +45,7 @@ module.exports = async function (interaction) {
         interaction,
         false,
         '❌ Support role does not exist!',
-        'Please create them using the `create` option.'
+        'Please create them using the `create` option.',
       );
     }
 
@@ -67,12 +67,12 @@ module.exports = async function (interaction) {
       interaction,
       true,
       '',
-      '✅ Successfully repaired OneKey Support role.'
+      '✅ Successfully repaired OneKey Support role.',
     );
     globals.guild(interaction.guild, 'Support roles repaired.');
   } else if (interaction.options.getString('action') == 'delete') {
     let oneKeyRole = interaction.guild.roles.cache.find(
-      (role) => role.name === 'OneKey Support'
+      (role) => role.name === 'OneKey Support',
     );
 
     if (!oneKeyRole) {
@@ -80,7 +80,7 @@ module.exports = async function (interaction) {
         interaction,
         false,
         '',
-        '❌ Support role does not exist!'
+        '❌ Support role does not exist!',
       );
     }
 
@@ -89,7 +89,7 @@ module.exports = async function (interaction) {
       interaction,
       true,
       '',
-      '✅ Successfully deleted OneKey Support role.'
+      '✅ Successfully deleted OneKey Support role.',
     );
     globals.guild(interaction.guild, 'Support roles deleted.');
   }

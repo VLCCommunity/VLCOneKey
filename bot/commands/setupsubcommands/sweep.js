@@ -23,7 +23,7 @@ module.exports = async function (interaction) {
   }
 
   let verifiedRole = await interaction.guild.roles.fetch(
-    mongoGuild.verifiedRole
+    mongoGuild.verifiedRole,
   );
 
   await interaction.guild.members.cache.each(async (member) => {
@@ -33,7 +33,7 @@ module.exports = async function (interaction) {
       try {
         await member.setNickname(
           mongoStudent.name,
-          '✅ Verified with VLC OneKey.'
+          '✅ Verified with VLC OneKey.',
         );
       } catch {
         // Can't change nickname

@@ -28,7 +28,7 @@ module.exports = async function (oldMember, newMember) {
     let mongoStudent = await studentsCollection.findOne({ _id: newMember.id });
     if (mongoStudent == null) {
       globals.warn(
-        `In **${guild.name}**, ${newMember.user.tag} (\`${newMember.id}\`) was just given the verified role despite being unverified. This is a potential security hazard.`
+        `In **${guild.name}**, ${newMember.user.tag} (\`${newMember.id}\`) was just given the verified role despite being unverified. This is a potential security hazard.`,
       );
     }
   } else if (
@@ -38,7 +38,7 @@ module.exports = async function (oldMember, newMember) {
     let mongoStudent = await studentsCollection.findOne({ _id: newMember.id });
     if (mongoStudent == null) {
       globals.warn(
-        `In **${guild.name}**, ${newMember.user.tag} (\`${newMember.id}\`) was just given the secondary role despite being unverified. This is a potential security hazard.`
+        `In **${guild.name}**, ${newMember.user.tag} (\`${newMember.id}\`) was just given the secondary role despite being unverified. This is a potential security hazard.`,
       );
     }
   }

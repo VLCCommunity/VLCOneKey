@@ -73,7 +73,7 @@ module.exports = async function (interaction) {
                 {
                   name: 'Date Verified',
                   value: `<t:${Math.round(
-                    otherMongoStudent.timestamp / 1000
+                    otherMongoStudent.timestamp / 1000,
                   )}:R>`,
                   inline: true,
                 },

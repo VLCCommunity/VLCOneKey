@@ -67,7 +67,7 @@ module.exports = async function (interaction) {
         $set: {
           privacy: privacyEnabled,
         },
-      }
+      },
     );
   }
 
@@ -85,12 +85,12 @@ module.exports = async function (interaction) {
     interaction,
     true,
     '✅ Settings Updated',
-    `Privacy mode is now ${interaction.options.data[0].value}d.`
+    `Privacy mode is now ${interaction.options.data[0].value}d.`,
   );
 
   // Fetch user logs channel
   let userLogsChannel = await discordClient.channels.fetch(
-    globals.userLogsChannelID
+    globals.userLogsChannelID,
   );
 
   // Send log message

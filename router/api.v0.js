@@ -44,8 +44,8 @@ router.use(async (req, res, next) => {
 
   console.log(
     `[API] ${req.method} ${req.url} - ${keyInDB.student.name} ${req.header(
-      'x-forwarded-for'
-    )}`
+      'x-forwarded-for',
+    )}`,
   );
 
   next();

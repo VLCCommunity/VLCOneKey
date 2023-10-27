@@ -42,7 +42,7 @@ function handleCredentialResponse(credential) {
         discordButton.classList.remove('w3-disabled');
         discordButton.setAttribute(
           'onclick',
-          `window.location.href = "${text}"`
+          `window.location.href = "${text}"`,
         );
 
         document.getElementById('error-card').classList.add('w3-hide');

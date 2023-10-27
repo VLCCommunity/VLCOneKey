@@ -21,7 +21,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       ':x: Invalid Role',
-      "VLC OneKey's highest role is below the verified role you have selected. Please move the `VLC OneKey` role to the top of the roles list in server settings."
+      "VLC OneKey's highest role is below the verified role you have selected. Please move the `VLC OneKey` role to the top of the roles list in server settings.",
     );
 
   let mongoGuild = await guildsCollection.findOne({
@@ -46,7 +46,7 @@ module.exports = async function (interaction) {
           clubName: interaction.options.getString('clubname'),
           enrollmentLink: interaction.options.getString('enrollmentlink'),
         },
-      }
+      },
     );
   }
   globals.respond(interaction, true, '', '✅ Successfully initialized server.');

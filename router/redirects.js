@@ -20,7 +20,7 @@ router.get('/status', (_req, res) => {
 // Terms & Conditions
 router.get('/terms', (_req, res) => {
   res.redirect(
-    'https://vlccommunity.notion.site/VLC-OneKey-Terms-and-Conditions-53d53468331d4f74bc1f0d358a8810d5'
+    'https://vlccommunity.notion.site/VLC-OneKey-Terms-and-Conditions-53d53468331d4f74bc1f0d358a8810d5',
   );
 });
 
@@ -37,7 +37,7 @@ router.get('/code', (_req, res) => {
 // API Documentation
 router.get('/api', (_req, res) => {
   res.redirect(
-    'https://vlccommunity.notion.site/VLC-OneKey-API-Documentation-0f42bdf48e00434792a58bbeb9273f2e'
+    'https://vlccommunity.notion.site/VLC-OneKey-API-Documentation-0f42bdf48e00434792a58bbeb9273f2e',
   );
 });
 

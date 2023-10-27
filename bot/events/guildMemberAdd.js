@@ -27,7 +27,7 @@ module.exports = async function (member) {
     try {
       await member.setNickname(
         mongoStudent.name,
-        '✅ Verified with VLC OneKey.'
+        '✅ Verified with VLC OneKey.',
       );
     } catch {
       // Cannot change nickname
@@ -46,7 +46,7 @@ module.exports = async function (member) {
     await member.roles.add(verifiedRole, '✅ Verified with VLC OneKey.');
   } catch (error) {
     globals.error(
-      `Unable to add verified role to <@${member.user.id}> (\`${member.user.id}\`) in **${member.guild.name}**.\n\`\`\`\n${error}\n\`\`\``
+      `Unable to add verified role to <@${member.user.id}> (\`${member.user.id}\`) in **${member.guild.name}**.\n\`\`\`\n${error}\n\`\`\``,
     );
   }
 

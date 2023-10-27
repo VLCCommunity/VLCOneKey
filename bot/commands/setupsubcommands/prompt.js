@@ -43,7 +43,7 @@ module.exports = async function (interaction) {
     interaction,
     true,
     '',
-    '✅ Verification prompt created.'
+    '✅ Verification prompt created.',
   );
   globals.guild(interaction.guild, 'Verification prompt created.');
 };

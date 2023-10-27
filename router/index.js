@@ -117,7 +117,7 @@ router.post('/', async (req, res) => {
   if (payload.hd !== 'virtuallearning.ca') {
     res.statusCode = 405;
     return res.send(
-      'You must sign in with your VLC (@virtuallearning.ca) account.'
+      'You must sign in with your VLC (@virtuallearning.ca) account.',
     );
   }
 
@@ -133,7 +133,7 @@ router.post('/', async (req, res) => {
         headers: {
           Authorization: `Bot ${process.env['DISCORD_TOKEN']}`,
         },
-      }
+      },
     );
 
     if (response.status != 200) {
@@ -142,7 +142,7 @@ router.post('/', async (req, res) => {
 
       // Discord ban/ratelimit
       if (response.status == 429) {
-        require('child_process').exec('kill 1');  // reset replit IP address
+        require('child_process').exec('kill 1'); // reset replit IP address
       }
     }
 
@@ -151,7 +151,7 @@ router.post('/', async (req, res) => {
     return res
       .status(405)
       .send(
-        `${emailInDB.email} already verified as ${user.username}#${user.discriminator}! If you have lost access to your old Discord account and would like to verify with a new one, please contact <a href=\"https://vlconekey.com/discord\">OneKey Support</a>.`
+        `${emailInDB.email} already verified as ${user.username}#${user.discriminator}! If you have lost access to your old Discord account and would like to verify with a new one, please contact <a href=\"https://vlconekey.com/discord\">OneKey Support</a>.`,
       );
   }
 
@@ -165,7 +165,7 @@ router.post('/', async (req, res) => {
 
   // send discord oauth with state
   res.send(
-    `https://discord.com/oauth2/authorize?client_id=919271957051105311&response_type=code&scope=identify&state=${state}`
+    `https://discord.com/oauth2/authorize?client_id=919271957051105311&response_type=code&scope=identify&state=${state}`,
   );
 });
 

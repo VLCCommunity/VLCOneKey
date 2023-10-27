@@ -23,7 +23,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       '❌ Error',
-      `${interaction.options.data[0].options[0].user.tag} is not verified with OneKey!`
+      `${interaction.options.data[0].options[0].user.tag} is not verified with OneKey!`,
     );
   }
 
@@ -34,7 +34,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       '❌ Error',
-      `${interaction.options.data[0].options[0].user.tag} already has an API key!`
+      `${interaction.options.data[0].options[0].user.tag} already has an API key!`,
     );
   }
 
@@ -52,7 +52,7 @@ module.exports = async function (interaction) {
       interaction,
       true,
       '✅ Generated API Key.',
-      `\`${apiKey}\``
+      `\`${apiKey}\``,
     );
 
     try {
@@ -74,7 +74,7 @@ module.exports = async function (interaction) {
         interaction,
         true,
         '',
-        `✅ API Key sent to ${interaction.options.data[0].options[0].user.tag}.`
+        `✅ API Key sent to ${interaction.options.data[0].options[0].user.tag}.`,
       );
     } catch {
       // Cannot DM user
@@ -82,7 +82,7 @@ module.exports = async function (interaction) {
         interaction,
         false,
         '',
-        `❌ Falied to send ${interaction.options.data[0].options[0].user.tag} API Key.`
+        `❌ Falied to send ${interaction.options.data[0].options[0].user.tag} API Key.`,
       );
     }
   } else {
@@ -90,7 +90,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       '',
-      '❌ Failed to generate API key.'
+      '❌ Failed to generate API key.',
     );
   }
 };

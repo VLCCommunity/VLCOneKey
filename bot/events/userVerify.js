@@ -19,10 +19,10 @@ module.exports = async function (discordID, vlcName) {
   IMPORTANT: The function assumes that discordClient is a valid client, discordID is a valid Discord user ID, and vlcName is a valid string.
   */
   const verifyLogsChannel = await discordClient.channels.fetch(
-    globals.verifyLogsChannelID
+    globals.verifyLogsChannelID,
   );
   const commLogsChannel = await discordClient.channels.fetch(
-    globals.commLogsChannelID
+    globals.commLogsChannelID,
   );
 
   // =================== DM Notification ===================
@@ -61,17 +61,17 @@ module.exports = async function (discordID, vlcName) {
       let mongoGuild = await guildsCollection.findOne({ _id: guild.id });
       if (!mongoGuild)
         return globals.warn(
-          `Guild settings not configured for **${guild.name}**.`
+          `Guild settings not configured for **${guild.name}**.`,
         );
 
       try {
         let verifiedRole = await member.guild.roles.fetch(
-          mongoGuild.verifiedRole
+          mongoGuild.verifiedRole,
         );
         await member.roles.add(verifiedRole, '✅ Verified with VLC OneKey.');
       } catch (error) {
         globals.error(
-          `Unable to add verified role to <@${discordID}> (\`${discordID}\`) in **${guild.name}**.\n\`\`\`\n${error}\n\`\`\``
+          `Unable to add verified role to <@${discordID}> (\`${discordID}\`) in **${guild.name}**.\n\`\`\`\n${error}\n\`\`\``,
         );
       }
     }
@@ -94,7 +94,7 @@ module.exports = async function (discordID, vlcName) {
   });
 
   commLogsChannel.send(
-    `✅ <@${discordID}> (\`${discordID}\`) has successfully verified as **${vlcName}**.`
+    `✅ <@${discordID}> (\`${discordID}\`) has successfully verified as **${vlcName}**.`,
   );
 
   // =================== Updating Status ===================

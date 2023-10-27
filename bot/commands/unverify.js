@@ -17,7 +17,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       '❌ Unauthorized',
-      'You must be an authorized OneKey developer to use this subcommand.'
+      'You must be an authorized OneKey developer to use this subcommand.',
     );
 
   let mongoStudent = await studentsCollection.findOne({
@@ -36,8 +36,8 @@ module.exports = async function (interaction) {
     }** / \`${mongoStudent.email}\` / \`${
       mongoStudent._id
     }\`)? The user verified <t:${Math.round(
-      mongoStudent.timestamp / 1000
-    )}:R>.\nType 'Yes.' within 5 seconds to confirm.`
+      mongoStudent.timestamp / 1000,
+    )}:R>.\nType 'Yes.' within 5 seconds to confirm.`,
   );
 
   let filter = (m) => m.author.id == interaction.user.id;
@@ -51,7 +51,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       '',
-      '❌ Confirmation failed.'
+      '❌ Confirmation failed.',
     );
 
   try {
@@ -62,27 +62,27 @@ module.exports = async function (interaction) {
         let mongoGuild = await guildsCollection.findOne({ _id: guild.id });
         if (!mongoGuild)
           return globals.warn(
-            `Guild settings not configured for **${guild.name}**.`
+            `Guild settings not configured for **${guild.name}**.`,
           );
 
         try {
           let verifiedRole = await member.guild.roles.fetch(
-            mongoGuild.verifiedRole
+            mongoGuild.verifiedRole,
           );
           await member.roles.remove(
             verifiedRole,
-            '❌ Unverified with VLC OneKey.'
+            '❌ Unverified with VLC OneKey.',
           );
         } catch (error) {
           globals.error(
-            `Unable to remove verified role from <@${mongoStudent._id}> (\`${mongoStudent._id}\`) in **${guild.name}**.\n\`\`\`\n${error}\n\`\`\``
+            `Unable to remove verified role from <@${mongoStudent._id}> (\`${mongoStudent._id}\`) in **${guild.name}**.\n\`\`\`\n${error}\n\`\`\``,
           );
         }
 
         try {
           await member.setNickname(
             '❌ Inactive Account',
-            '❌ Unverified with VLC OneKey.'
+            '❌ Unverified with VLC OneKey.',
           );
           await member.kick('❌ Unverified with VLC OneKey.');
         } catch {
@@ -115,7 +115,7 @@ module.exports = async function (interaction) {
     console.log(`🔓 Unverified ${mongoStudent._id}`);
 
     let verifyLogsChannel = await discordClient.channels.fetch(
-      globals.verifyLogsChannelID
+      globals.verifyLogsChannelID,
     );
     verifyLogsChannel.send({
       embeds: [
@@ -132,24 +132,24 @@ module.exports = async function (interaction) {
     });
 
     let commLogsChannel = await discordClient.channels.fetch(
-      globals.commLogsChannelID
+      globals.commLogsChannelID,
     );
     commLogsChannel.send(
-      `❌ <@${mongoStudent._id}> (**${mongoStudent.name}** / \`${mongoStudent.email}\` / \`${mongoStudent._id}\`) has been unverified.`
+      `❌ <@${mongoStudent._id}> (**${mongoStudent.name}** / \`${mongoStudent.email}\` / \`${mongoStudent._id}\`) has been unverified.`,
     );
 
     globals.respondAgain(
       interaction,
       true,
       '',
-      `✅ Successfully unverified <@${mongoStudent._id}> (**${mongoStudent.name}** / \`${mongoStudent.email}\` / \`${mongoStudent._id}\`).`
+      `✅ Successfully unverified <@${mongoStudent._id}> (**${mongoStudent.name}** / \`${mongoStudent.email}\` / \`${mongoStudent._id}\`).`,
     );
   } catch (error) {
     globals.respondAgain(
       interaction,
       false,
       '',
-      `❌ Unable to unverify user.\n\`\`\`\n${error}\n\`\`\``
+      `❌ Unable to unverify user.\n\`\`\`\n${error}\n\`\`\``,
     );
   }
 };

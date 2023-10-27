@@ -15,7 +15,7 @@ module.exports = async function (interaction) {
     interaction,
     true,
     '',
-    '✅ Resetting nicknames of all members...'
+    '✅ Resetting nicknames of all members...',
   );
 
   // Fetch guild from guildsCollection
@@ -35,7 +35,7 @@ module.exports = async function (interaction) {
       try {
         await member.setNickname(
           mongoStudent.name,
-          '✅ Verified with VLC OneKey.'
+          '✅ Verified with VLC OneKey.',
         );
       } catch {
         // Can't change nickname

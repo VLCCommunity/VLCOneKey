@@ -44,7 +44,7 @@ const respondAgain = async function (
   interaction,
   success,
   title,
-  description = ''
+  description = '',
 ) {
   let color = 15548997;
   if (success) {

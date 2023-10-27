@@ -10,12 +10,12 @@ module.exports = async function (interaction) {
   if (globals.developers.includes(interaction.user.id)) {
     try {
       require(`./apisubcommands/${interaction.options.getSubcommand()}`)(
-        interaction
+        interaction,
       );
     } catch (error) {
       console.log(
         `❌ Unable to execute ${interaction.options.getSubcommand()} api subcommand. \n` +
-          error
+          error,
       );
     }
   } else {
@@ -23,7 +23,7 @@ module.exports = async function (interaction) {
       interaction,
       false,
       '❌ Unauthorized',
-      'You must be an authorized OneKey developer to use this command.'
+      'You must be an authorized OneKey developer to use this command.',
     );
   }
 };
