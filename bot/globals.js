@@ -12,10 +12,11 @@ const guildLogsChannelID = '953539282591682560';
 const userLogsChannelID = '1081702211702247616';
 const commLogsChannelID = '884681312445812746';
 
-const yusufID = '835179046215221248'; // Formerly Yusuf Rahman, replaced by Ahsen Khan
+const yusufID = '218065068875579393'; // Yusuf Rahman
 const ibrahimID = '760542510975156285'; // Ibrahim Siddique
+const ahsenID = '835179046215221248'; // Ahsen Khan
 
-const developers = [yusufID, ibrahimID];
+const developers = [yusufID, ibrahimID, ahsenID];
 
 const respond = async function (interaction, success, title, description = '') {
   let color = 15548997;
