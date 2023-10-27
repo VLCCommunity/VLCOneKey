@@ -12,7 +12,7 @@ const guildLogsChannelID = '953539282591682560';
 const userLogsChannelID = '1081702211702247616';
 const commLogsChannelID = '884681312445812746';
 
-const yusufID = '218065068875579393'; // Yusuf Rahmn
+const yusufID = '835179046215221248'; // Formerly Yusuf Rahman, replaced by Ahsen Khan
 const ibrahimID = '760542510975156285'; // Ibrahim Siddique
 
 const developers = [yusufID, ibrahimID];
