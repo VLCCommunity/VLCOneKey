@@ -1,11 +1,7 @@
 {
   "name": "vlc-onekey",
   "version": "1.0.0",
-  "contributors": [
-    "Yusuf Rahman @notyusufr",
-    "@TheRedstoneRadiant",
-    "Eesa Zahed @eesazahed"
-  ],
+  "contributors": [],
   "dependencies": {
     "body-parser": "^1.20.1",
     "discord.js": "^14.7.1",
@@ -16,14 +12,15 @@
     "node-fetch": "^2.6.8"
   },
   "scripts": {
-    "start": "node .",
-    "dev": "env $(cat .env) node .",
+    "start": "env $(cat .env) node .",
+    "dev": "env $(cat .env) nodemon .",
     "register": "env $(cat .env) node bot/registerCommands.js",
     "format": "npx prettier --write ."
   },
   "main": "index.js",
   "devDependencies": {
     "node": "^16.19.0",
+    "nodemon": "^3.1.4",
     "prettier": "^2.8.3"
   }
 }

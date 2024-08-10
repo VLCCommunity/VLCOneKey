@@ -73,13 +73,6 @@ discordClient.once('ready', async () => {
   });
 });
 
-discordClient.on('debug', (e) => {
-  if (e.substr(6, 3) == '429') {
-    // discord ban/ratelimit
-    require('child_process').exec('kill 1');
-  }
-});
-
 discordClient.on('interactionCreate', async (interaction) => {
   if (interaction.isCommand()) {
     try {
