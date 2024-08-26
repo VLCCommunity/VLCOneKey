@@ -39,9 +39,6 @@ const studentsCollection = studentsDB.collection('Students');
 const guildsCollection = studentsDB.collection('Guilds');
 const statesCollection = studentsDB.collection('States');
 
-const developerDB = mongoDB.db('DeveloperDB');
-const keyCollection = developerDB.collection('Api_Keys');
-
 // Discord
 
 const discordClient = new Client({
@@ -57,7 +54,6 @@ module.exports = {
   studentsCollection,
   guildsCollection,
   statesCollection,
-  keyCollection,
 };
 
 const globals = require('./bot/globals');
@@ -80,7 +76,7 @@ discordClient.on('interactionCreate', async (interaction) => {
       await executeCommand(interaction);
     } catch (error) {
       console.log(
-        `❌ Unable to execute ${interaction.commandName} command. \n` + error,
+        `❌ Unable to execute ${interaction.commandName} command. \n` + error
       );
     }
   } else if (interaction.isButton()) {
@@ -89,7 +85,7 @@ discordClient.on('interactionCreate', async (interaction) => {
       await executeButton(interaction);
     } catch (error) {
       console.log(
-        `❌ Unable to execute ${interaction.customId} button. \n` + error,
+        `❌ Unable to execute ${interaction.customId} button. \n` + error
       );
     }
   }
@@ -131,5 +127,5 @@ app.listen(
   },
   () => {
     console.log(`✅ OneKey online: https://${process.env.APP_DOMAIN}`);
-  },
+  }
 );
