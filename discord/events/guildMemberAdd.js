@@ -1,22 +1,15 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC.
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *--------------------------------------------------------------------------------------------*/
-
-const {
-  discordClient,
-  studentsCollection,
-  guildsCollection,
-  globals,
-} = require('../../index');
+const { database, discordBot } = require('../../index');
 
 module.exports = async function (member) {
-  let mongoStudent = await studentsCollection.findOne({ _id: member.id });
+  let mongoStudent = await database.studentsCollection.findOne({
+    _id: member.id,
+  });
 
   if (mongoStudent == null) return;
 
-  let mongoGuild = await guildsCollection.findOne({ _id: member.guild.id });
+  let mongoGuild = await database.guildsCollection.findOne({
+    _id: member.guild.id,
+  });
 
   const isClubGuild = mongoGuild.clubName && mongoGuild.enrollmentLink;
 
@@ -37,7 +30,9 @@ module.exports = async function (member) {
   // ======== Adds role ========
 
   if (mongoGuild == null) {
-    globals.warn(`Guild settings not configured for **${member.guild.name}**.`);
+    discordBot.warn(
+      `Guild settings not configured for **${member.guild.name}**.`,
+    );
     return;
   }
 
@@ -45,7 +40,7 @@ module.exports = async function (member) {
     let verifiedRole = await member.guild.roles.fetch(mongoGuild.verifiedRole);
     await member.roles.add(verifiedRole, '✅ Verified with VLC OneKey.');
   } catch (error) {
-    globals.error(
+    discordBot.error(
       `Unable to add verified role to <@${member.user.id}> (\`${member.user.id}\`) in **${member.guild.name}**.\n\`\`\`\n${error}\n\`\`\``,
     );
   }
@@ -58,7 +53,7 @@ module.exports = async function (member) {
         {
           description: `You have been automatically verified in **${member.guild.name}**.`,
           footer: {
-            iconURL: discordClient.user.displayAvatarURL(),
+            iconURL: discordBot.client.user.displayAvatarURL(),
             text: 'VLC OneKey | Verified once, verified forever.',
           },
           color: 2201331,
@@ -80,7 +75,7 @@ module.exports = async function (member) {
           title: 'Club Enrollment',
           description: `Please enroll in the club's Canvas course if you have not already done so.`,
           footer: {
-            iconURL: discordClient.user.displayAvatarURL(),
+            iconURL: discordBot.client.user.displayAvatarURL(),
             text: 'VLC OneKey | Verified once, verified forever.',
           },
           color: 2201331,

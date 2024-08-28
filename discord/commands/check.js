@@ -1,18 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC.
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *--------------------------------------------------------------------------------------------*/
-
-const {
-  discordClient,
-  studentsCollection,
-  guildsCollection,
-  globals,
-} = require('../../index');
+const { discordBot, database } = require('../../index');
 
 module.exports = async function (interaction) {
-  const mongoStudent = await studentsCollection.findOne({
+  const mongoStudent = await database.studentsCollection.findOne({
     _id: interaction.user.id,
   });
   const anotherUser =
@@ -42,7 +31,7 @@ module.exports = async function (interaction) {
               },
             ],
             footer: {
-              iconURL: discordClient.user.displayAvatarURL(),
+              iconURL: discordBot.client.user.displayAvatarURL(),
               text: 'VLC OneKey | Verified once, verified forever.',
             },
             color: 5763719,
@@ -51,7 +40,7 @@ module.exports = async function (interaction) {
         ephemeral: true,
       });
     } else {
-      let otherMongoStudent = await studentsCollection.findOne({
+      let otherMongoStudent = await database.studentsCollection.findOne({
         _id: interaction.options.data[0].user.id,
       });
       if (otherMongoStudent != null) {
@@ -79,7 +68,7 @@ module.exports = async function (interaction) {
                 },
               ],
               footer: {
-                iconURL: discordClient.user.displayAvatarURL(),
+                iconURL: discordBot.client.user.displayAvatarURL(),
                 text: 'VLC OneKey | Verified once, verified forever.',
               },
               color: 5763719,
@@ -93,7 +82,7 @@ module.exports = async function (interaction) {
             {
               title: `❌ ${interaction.options.data[0].user.tag} is not verified.`,
               footer: {
-                iconURL: discordClient.user.displayAvatarURL(),
+                iconURL: discordBot.client.user.displayAvatarURL(),
                 text: 'VLC OneKey | Verified once, verified forever.',
               },
               color: 15548997,
@@ -112,7 +101,7 @@ module.exports = async function (interaction) {
             description:
               'Click `Verify` to verify your identity as a VLC student.',
             footer: {
-              iconURL: discordClient.user.displayAvatarURL(),
+              iconURL: discordBot.client.user.displayAvatarURL(),
               text: 'VLC OneKey | Verified once, verified forever.',
             },
             color: 15548997,
@@ -141,7 +130,7 @@ module.exports = async function (interaction) {
             description:
               'Click `Verify` to verify your identity as a VLC student.',
             footer: {
-              iconURL: discordClient.user.displayAvatarURL(),
+              iconURL: discordBot.client.user.displayAvatarURL(),
               text: 'VLC OneKey | Verified once, verified forever.',
             },
             color: 15548997,

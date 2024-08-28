@@ -1,17 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC.
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *--------------------------------------------------------------------------------------------*/
-
-const {
-  studentsCollection,
-  guildsCollection,
-  globals,
-} = require('../../../index');
+const { database, discordBot } = require('../../../index');
 
 module.exports = async function (interaction) {
-  globals.respond(
+  discordBot.respond(
     interaction,
     true,
     '',
@@ -19,7 +9,7 @@ module.exports = async function (interaction) {
   );
 
   // Fetch guild from guildsCollection
-  const mongoGuild = await guildsCollection.findOne({
+  const mongoGuild = await database.guildsCollection.findOne({
     _id: interaction.guild.id,
   });
 
@@ -28,7 +18,9 @@ module.exports = async function (interaction) {
 
   await interaction.guild.members.cache.each(async (member) => {
     // Fetch student from studentsCollection
-    let mongoStudent = await studentsCollection.findOne({ _id: member.id });
+    let mongoStudent = await database.studentsCollection.findOne({
+      _id: member.id,
+    });
 
     // if student is verified and (privacy mode disabled or is club server)
     if (mongoStudent && (isClubGuild || !mongoStudent.privacy)) {
@@ -43,5 +35,5 @@ module.exports = async function (interaction) {
     }
   });
 
-  globals.guild(interaction.guild, 'Server nameswept.');
+  discordBot.guild(interaction.guild, 'Server nameswept.');
 };

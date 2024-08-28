@@ -1,15 +1,4 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC.
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *--------------------------------------------------------------------------------------------*/
-
-const {
-  discordClient,
-  studentsCollection,
-  guildsCollection,
-  globals,
-} = require('../../../index');
+const { discordBot } = require('../../../index');
 
 module.exports = async function (interaction) {
   await interaction.channel.send({
@@ -19,7 +8,7 @@ module.exports = async function (interaction) {
         description:
           'To gain full access to the server, please verify your identity as a VLC student by clicking `Verify` below. \n\nIf you encounter any issues, ping a server administator.',
         footer: {
-          iconURL: discordClient.user.displayAvatarURL(),
+          iconURL: discordBot.client.user.displayAvatarURL(),
           text: 'VLC OneKey | Verified once, verified forever.',
         },
         color: 2201331,
@@ -39,11 +28,11 @@ module.exports = async function (interaction) {
       },
     ],
   });
-  await globals.respond(
+  await discordBot.respond(
     interaction,
     true,
     '',
     '✅ Verification prompt created.',
   );
-  globals.guild(interaction.guild, 'Verification prompt created.');
+  discordBot.guild(interaction.guild, 'Verification prompt created.');
 };

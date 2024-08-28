@@ -1,27 +1,16 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC.
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *--------------------------------------------------------------------------------------------*/
-
-const {
-  discordClient,
-  studentsCollection,
-  guildsCollection,
-  globals,
-} = require('../../index');
+const { discordBot, database } = require('../../index');
 
 module.exports = async function (interaction) {
   const privacyEnabled = interaction.options.data[0].value === 'enable';
 
-  let mongoGuild = await guildsCollection.findOne({
+  let mongoGuild = await database.guildsCollection.findOne({
     _id: interaction.guild.id,
   });
 
   const isClubGuild = mongoGuild.clubName && mongoGuild.enrollmentLink;
 
   // fetch user from database
-  let mongoStudent = await studentsCollection.findOne({
+  let mongoStudent = await database.studentsCollection.findOne({
     _id: interaction.user.id,
   });
 
@@ -34,7 +23,7 @@ module.exports = async function (interaction) {
           description:
             'Click `Verify` to verify your identity as a VLC student.',
           footer: {
-            iconURL: discordClient.user.displayAvatarURL(),
+            iconURL: discordBot.client.user.displayAvatarURL(),
             text: 'VLC OneKey | Verified once, verified forever.',
           },
           color: 15548997,
@@ -59,7 +48,7 @@ module.exports = async function (interaction) {
 
   // Update 'privacy' value in database
   if (mongoStudent.privacy !== privacyEnabled) {
-    await studentsCollection.updateOne(
+    await database.studentsCollection.updateOne(
       {
         _id: interaction.user.id,
       },
@@ -81,7 +70,7 @@ module.exports = async function (interaction) {
   }
 
   // Respond to interaction
-  await globals.respond(
+  await discordBot.respond(
     interaction,
     true,
     '✅ Settings Updated',
@@ -89,8 +78,8 @@ module.exports = async function (interaction) {
   );
 
   // Fetch user logs channel
-  let userLogsChannel = await discordClient.channels.fetch(
-    globals.userLogsChannelID,
+  let userLogsChannel = await discordBot.client.channels.fetch(
+    discordBot.userLogsChannelID,
   );
 
   // Send log message
@@ -100,7 +89,7 @@ module.exports = async function (interaction) {
         title: '⚠️ User Updated',
         description: `<@${mongoStudent._id}> has ${interaction.options.data[0].value}d privacy mode.`,
         footer: {
-          iconURL: discordClient.user.displayAvatarURL(),
+          iconURL: discordBot.client.user.displayAvatarURL(),
           text: 'VLC OneKey | Verified once, verified forever.',
         },
         color: 16705372,

@@ -1,24 +1,18 @@
-<!-----------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC. 
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *-------------------------------------------------------------------------------------------- -->
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <!-- CSS -->
+    <link rel="stylesheet" href="/css/output.css" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    >
-    <link
-      rel="stylesheet"
-      href="/css/style.css"
-    >
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    
+    <!-- JavaScript -->
+     <script src="/js/signin.js"></script>
 
     <title>VLC OneKey</title>
 
@@ -59,35 +53,49 @@ VLC OneKey is student-built and not school-sanctioned, and is not in any way aff
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
     <meta name="theme-color" content="#ffffff" />
-
-    <script>
-      const discordCompleted =
-        "<%- JSON.stringify(discordCompleted) %>" === "true";
-      const error = "<%- error %>";
-    </script>
   </head>
 
-<body>
-    <main class="container">
-        <img src="/images/OneKey_Wordmark.png" alt="VLC OneKey" />
-        <article id="error-card">
-            <h5 id="error-box"></h5>
-        </article>
-        <article id="card">
-            <div class="extra-padding">
-              <p>To verify, sign in with your Discord account, and then verify you VLC Gmail account.</p>
-              <button id="discord-button">Discord</button> <!-- a language you must learn -the ghost -->
-              <br>
-              <form action="">
-                <input type="email" disabled>
-                <button type="submit" disabled>Send Verification Email</button>
-              </form>
-              <p><small><em data-tooltip="If you're using an Incognito/Private Browsing tab, use to a normal tab instead. If not, try verifying on a different browser." data-placement="bottom">Having trouble verifying?</em></small></p>
-            </div>
-            <footer>
-              <p><small><em>VLC OneKey is student-built and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC. The VLC name, logo, and all other branding are property of the Virtual Learning Center.</em></small></p>
-            </footer>
-        </article>
-      </main>
+  <body
+    class="flex min-h-screen items-center justify-center bg-[#2c2f33] text-white"
+  >
+    <main class="flex w-96 flex-col gap-6 font-bold">
+      <img src="/images/OneKey_Wordmark.png" alt="VLC OneKey" />
+      <article
+        class="justify-center flex h-[19rem] flex-col gap-4 rounded-3xl bg-[#2196f3] p-8 text-center"
+      >
+        <p>
+          Sign in with your Discord account, and then verify your VLC Gmail.
+        </p>
+        <div class="flex gap-8 flex-col" id="verify_container">
+          <% if (discordCompleted) { %>
+          <button class="bg-[#008037] w-full flex justify-center items-center gap-4 rounded-2xl h-[4.5rem] py-4">
+            <span class="material-symbols-outlined !text-[48px]">
+              check
+            </span>
+            <img src="/images/discord.png" alt="Discord" class="text-3xl w-auto h-full">
+          </button>
+          <button class="bg-[#2c2f33] w-full flex justify-center rounded-2xl h-[4.5rem] py-4" onclick="startGoogleVerification();">
+            <img src="/images/google.png" alt="Discord" class="text-3xl w-auto h-full">
+          </button>
+          <% } %>
+        </div>
+        <form class="h-full flex-col justify-around hidden" id="google_container" onsubmit="emailSubmit(event)">
+          <input
+            class="w-full rounded-2xl bg-[#2c2f33] px-8 py-6 text-white outline-none"
+            type="email"
+            name="email"
+            default="123@gmail.com"
+            placeholder="Enter your email"
+            required
+          />
+          <button class="rounded-2xl bg-[#2c2f33] px-4 py-3" type="submit">
+            Verify
+          </button>
+        </form>
+      </article>
+      <div class="bg-[#db3236] px-8 py-6 rounded-2xl hidden" id="error-card">
+        <p id="error"></p>
+      </div>
+    </main>
   </body>
 </html>

@@ -1,15 +1,4 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC.
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *--------------------------------------------------------------------------------------------*/
-
-const {
-  discordClient,
-  studentsCollection,
-  guildsCollection,
-  globals,
-} = require('../../index');
+const { discordBot } = require('../../index');
 const { PermissionsBitField } = require('discord.js');
 
 module.exports = async function (interaction) {
@@ -17,7 +6,7 @@ module.exports = async function (interaction) {
     interaction.memberPermissions.has(
       PermissionsBitField.Flags.Administrator,
     ) ||
-    globals.developers.includes(interaction.user.id)
+    discordBot.developers.includes(interaction.user.id)
   ) {
     try {
       let executeSubcommand = require(
@@ -31,7 +20,7 @@ module.exports = async function (interaction) {
       );
     }
   } else {
-    await globals.respond(
+    await discordBot.respond(
       interaction,
       false,
       '❌ Insufficient Permissions',

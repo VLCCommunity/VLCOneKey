@@ -1,20 +1,14 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) VLC Community. All rights reserved.
- *  VLC Community is student-run and not school-sanctioned, and is not in any way affiliated with or endorsed by the VLC.
- *  The VLC name, logo, and all other branding are property of the Virtual Learning Center.
- *--------------------------------------------------------------------------------------------*/
-
 /**
  * Sends a `method` request with json `jsonBody` to `endpoint`. Returns JSON or text response.
- * 
+ *
  * The method will attempt to convert HTTP responses to JSON, and if it fails, it will return the
  * raw response text as returned by the server.
- * 
+ *
  * @param {string}                  endpoint   The endpoint to send the GET request to.
  * @param {object} [jsonBody={}]    jsonBody   The JSON to send.
  * @param {string} [method="POST"]  method     The HTTP request method.
  */
-const performRequest = async (endpoint, jsonBody = {}, method = "POST") => {
+const performRequest = async (endpoint, jsonBody = {}, method = 'POST') => {
   const response = await fetch(window.location.href, {
     method: method,
     body: JSON.stringify(jsonBody),
@@ -25,6 +19,40 @@ const performRequest = async (endpoint, jsonBody = {}, method = "POST") => {
   } catch (err) {
     return await response.text();
   }
+};
+
+function startGoogleVerification() {
+  const verifyContainer = document.getElementById('verify_container');
+  const googleContainer = document.getElementById('google_container');
+
+  verifyContainer.classList.remove('flex');
+  verifyContainer.classList.add('hidden');
+
+  googleContainer.classList.remove('hidden');
+  googleContainer.classList.add('flex');
+}
+
+const emailSubmit = async (e) => {
+  e.preventDefault();
+  const requestJson = Object.fromEntries(new FormData(e.target));
+
+  const response = await fetch('/email', {
+    method: 'POST',
+    body: JSON.stringify(requestJson),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const jsonResponse = await response.json();
+
+  if (jsonResponse.success) {
+    showCodeInput();
+  } else {
+    raiseError(jsonResponse.message);
+  }
+};
+
+function showCodeInput() {
+  alert('Enter code bro');
 }
 
 /*
@@ -49,8 +77,8 @@ if (response.status != 200) {
 */
 
 const raiseError = (err) => {
-  document.getElementById('error-box').innerHTML = `${err}`;
-  document.getElementById('error-card').removeProperty("display");
+  document.getElementById('error-card').classList.remove('hidden');
+  document.getElementById('error').innerHTML = `ERROR: ${err}`;
 };
 
 // // Verified successfully
@@ -60,4 +88,3 @@ const raiseError = (err) => {
 //   card.classList.remove('w3-blue');
 //   card.innerHTML = '<h1>✅ Verified.</h1>';
 // }
-
