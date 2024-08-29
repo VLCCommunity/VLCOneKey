@@ -1,3 +1,28 @@
+// Behond, the curse of not using a web framework...
+
+const verifyContainer = document.getElementById('verify_container');
+const googleContainer = document.getElementById('google_container');
+const codeContainer = document.getElementById('code_container');
+const codeInputs = Array.from(document.querySelectorAll('input.code_input'));
+const headerElement = document.getElementById('header');
+const errorCard = document.getElementById('error-card');
+const errorInput = document.getElementById('error');
+
+const fragment = new URLSearchParams(window.location.hash.slice(1));
+const accessToken = fragment.get('access_token');
+
+if (accessToken) {
+  verifyContainer.innerHTML = `<button class="bg-[#008037] w-full flex justify-center items-center gap-4 rounded-2xl h-[4.5rem] py-4">
+        <span class="material-symbols-outlined !text-[48px]">
+          check
+        </span>
+        <img src="/images/discord.png" alt="Discord" class="text-3xl w-auto h-full">
+      </button>
+      <button class="bg-[#2c2f33] w-full flex justify-center rounded-2xl h-[4.5rem] py-4" onclick="startGoogleVerification();">
+        <img src="/images/google.png" alt="Google" class="text-3xl w-auto h-full">
+      </button>`;
+}
+
 /**
  * Sends a `method` request with json `jsonBody` to `endpoint`. Returns JSON or text response.
  *
@@ -9,9 +34,10 @@
  * @param {string} [method="POST"]  method     The HTTP request method.
  */
 const performRequest = async (endpoint, jsonBody = {}, method = 'POST') => {
-  const response = await fetch(window.location.href, {
+  const response = await fetch(window.location.origin + endpoint, {
     method: method,
     body: JSON.stringify(jsonBody),
+    headers: { 'Content-Type': 'application/json', Authorization: accessToken },
   });
 
   try {
@@ -22,9 +48,6 @@ const performRequest = async (endpoint, jsonBody = {}, method = 'POST') => {
 };
 
 function startGoogleVerification() {
-  const verifyContainer = document.getElementById('verify_container');
-  const googleContainer = document.getElementById('google_container');
-
   verifyContainer.classList.remove('flex');
   verifyContainer.classList.add('hidden');
 
@@ -32,59 +55,115 @@ function startGoogleVerification() {
   googleContainer.classList.add('flex');
 }
 
-const emailSubmit = async (e) => {
+async function emailSubmit(e) {
+  hideErrorCard();
+
   e.preventDefault();
+
   const requestJson = Object.fromEntries(new FormData(e.target));
-
-  const response = await fetch('/email', {
-    method: 'POST',
-    body: JSON.stringify(requestJson),
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-  const jsonResponse = await response.json();
+  const jsonResponse = await performRequest('/email', requestJson);
 
   if (jsonResponse.success) {
     showCodeInput();
   } else {
     raiseError(jsonResponse.message);
   }
-};
-
-function showCodeInput() {
-  alert('Enter code bro');
 }
 
-/*
-if (response.status != 200) {
-    raiseError(text);
-    googleButton.childNodes[0].nodeValue = 'VLC Gmail';
-  } else {
-    googleButton.classList.remove('w3-black');
-    googleButton.classList.add('w3-green');
-    googleButton.innerHTML = '✅ VLC Gmail';
+async function codeSubmit(e) {
+  hideErrorCard();
 
-    const discordButton = document.getElementById('discord-button');
-    discordButton.disabled = false;
-    discordButton.classList.remove('w3-disabled');
-    discordButton.setAttribute(
-      'onclick',
-      `window.location.href = "${text}"`,
-    );
+  e.preventDefault();
 
-    document.getElementById('error-card').classList.add('w3-hide');
+  let code = '';
+  for (const codeInput of codeInputs) {
+    code += codeInput.value.toString();
   }
-*/
 
-const raiseError = (err) => {
-  document.getElementById('error-card').classList.remove('hidden');
-  document.getElementById('error').innerHTML = `ERROR: ${err}`;
-};
+  const requestJson = { code };
+  const jsonResponse = await performRequest('/code', requestJson);
 
-// // Verified successfully
-// if (discordCompleted) {
-//   const card = document.getElementById('card');
-//   card.classList.add('w3-padding-64', 'w3-green', 'w3-center');
-//   card.classList.remove('w3-blue');
-//   card.innerHTML = '<h1>✅ Verified.</h1>';
-// }
+  if (jsonResponse.success) {
+    showVerified();
+  } else {
+    raiseError(jsonResponse.message);
+  }
+}
+
+function showVerified() {
+  document.querySelector('main').innerHTML =
+    `<img src="/images/OneKey_Wordmark.png" alt="VLC OneKey" />
+      <div
+        class="flex h-[19rem] flex-col items-center rounded-3xl bg-[#008037]"
+      >
+        <span class="material-symbols-outlined !text-[15rem]"> check </span>
+        <p class="mt-[-3rem] text-4xl uppercase">Verified</p>
+      </div>`;
+}
+
+function showCodeInput() {
+  googleContainer.classList.remove('flex');
+  googleContainer.classList.add('hidden');
+
+  codeContainer.classList.remove('hidden');
+  codeContainer.classList.add('flex');
+
+  headerElement.innerText =
+    'Enter the 6 digit code that was sent to your email.';
+}
+
+function hideErrorCard() {
+  errorCard.classList.add('hidden');
+  errorInput.innerHTML = '';
+}
+
+function raiseError(err) {
+  errorCard.classList.remove('hidden');
+  errorInput.innerHTML = `ERROR: ${err}`;
+}
+
+function codePasted(event) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  clipboardData = event.clipboardData || window.clipboardData;
+  pastedData = clipboardData.getData('Text');
+
+  const match = pastedData.match(/\b\d{6}\b/);
+
+  if (match) {
+    const code = match[0];
+
+    for (let i = 0; i < 6; i++) {
+      const codeInput = codeInputs[i];
+      const number = code.charAt(i);
+
+      codeInput.value = number;
+    }
+  } else {
+    alert('Unable to find 6 digit code in pasted content.');
+  }
+}
+
+function incrementFocus(event) {
+  event.preventDefault();
+
+  const input = event.target;
+
+  // Check if the input is a valid digit (0-9) and the length is 1
+  if (!isNaN(event.key)) {
+    const currentInputIndex = codeInputs.indexOf(input);
+
+    codeInputs[currentInputIndex].value = event.key;
+
+    // If it's not the last input, move to the next one
+    if (currentInputIndex < codeInputs.length - 1) {
+      codeInputs[currentInputIndex + 1].focus();
+    }
+  }
+}
+
+for (const codeInput of codeInputs) {
+  codeInput.addEventListener('paste', codePasted);
+  codeInput.addEventListener('keypress', incrementFocus);
+}

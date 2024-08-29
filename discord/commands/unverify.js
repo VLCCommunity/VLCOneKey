@@ -90,7 +90,7 @@ module.exports = async function (interaction) {
         embeds: [
           {
             title: '❌ Unverified',
-            description: `Your account has been unverified..`,
+            description: `Your account has been unverified.`,
             footer: {
               iconURL: discordBot.client.user.displayAvatarURL(),
               text: 'VLC OneKey | Verified once, verified forever.',
@@ -103,7 +103,7 @@ module.exports = async function (interaction) {
       // Cannot DM user
     }
 
-    console.log(`🔓 Unverified ${mongoStudent._id}`);
+    console.log(`Unverified ${mongoStudent._id}`);
 
     let verifyLogsChannel = await discordBot.client.channels.fetch(
       discordBot.verifyLogsChannelID,

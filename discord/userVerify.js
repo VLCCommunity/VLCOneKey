@@ -47,7 +47,9 @@ module.exports = async function (discordID, vlcName) {
         // Cannot set nickname
       }
 
-      let mongoGuild = await guildsCollection.findOne({ _id: guild.id });
+      let mongoGuild = await database.guildsCollection.findOne({
+        _id: guild.id,
+      });
       if (!mongoGuild)
         return discordBot.warn(
           `Guild settings not configured for **${guild.name}**.`,

@@ -23,9 +23,8 @@ class DiscordBot {
     this.commLogsChannelID = '884681312445812746';
 
     this.yusufID = '218065068875579393';
-    this.ibrahimID = '760542510975156285';
     this.ahsenID = '835179046215221248';
-    this.developers = [this.yusufID, this.ibrahimID, this.ahsenID];
+    this.developers = [this.yusufID, this.ahsenID, '1168661912289030296'];
   }
 
   async loadEvents() {
@@ -126,7 +125,7 @@ class DiscordBot {
   }
 
   async warn(description) {
-    let channel = await this.client.channels.fetch(errorLogsChannelID);
+    let channel = await this.client.channels.fetch(this.errorLogsChannelID);
 
     channel.send({
       embeds: [
@@ -144,7 +143,7 @@ class DiscordBot {
   }
 
   async error(description) {
-    let channel = await this.client.channels.fetch(errorLogsChannelID);
+    let channel = await this.client.channels.fetch(this.errorLogsChannelID);
 
     channel.send({
       embeds: [
@@ -162,7 +161,7 @@ class DiscordBot {
   }
 
   async guild(guild, description) {
-    let channel = await this.client.channels.fetch(guildLogsChannelID);
+    let channel = await this.client.channels.fetch(this.guildLogsChannelID);
 
     channel.send({
       embeds: [

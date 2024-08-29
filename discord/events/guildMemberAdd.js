@@ -1,6 +1,6 @@
 const { database, discordBot } = require('../../index');
 
-module.exports = async function (member) {
+module.exports = async function (client, member) {
   let mongoStudent = await database.studentsCollection.findOne({
     _id: member.id,
   });
@@ -53,7 +53,7 @@ module.exports = async function (member) {
         {
           description: `You have been automatically verified in **${member.guild.name}**.`,
           footer: {
-            iconURL: discordBot.client.user.displayAvatarURL(),
+            iconURL: client.user.displayAvatarURL(),
             text: 'VLC OneKey | Verified once, verified forever.',
           },
           color: 2201331,
@@ -75,7 +75,7 @@ module.exports = async function (member) {
           title: 'Club Enrollment',
           description: `Please enroll in the club's Canvas course if you have not already done so.`,
           footer: {
-            iconURL: discordBot.client.user.displayAvatarURL(),
+            iconURL: client.user.displayAvatarURL(),
             text: 'VLC OneKey | Verified once, verified forever.',
           },
           color: 2201331,

@@ -1,6 +1,6 @@
 const { database, discordBot } = require('../../index');
 
-module.exports = async function (oldMember, newMember) {
+module.exports = async function (_client, oldMember, newMember) {
   let guild = newMember.guild;
 
   let mongoGuild = await database.guildsCollection.findOne({ _id: guild.id });

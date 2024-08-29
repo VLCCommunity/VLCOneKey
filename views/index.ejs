@@ -10,9 +10,9 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
-    
+
     <!-- JavaScript -->
-     <script src="/js/signin.js"></script>
+    <script src="/js/signin.js" defer></script>
 
     <title>VLC OneKey</title>
 
@@ -61,39 +61,105 @@ VLC OneKey is student-built and not school-sanctioned, and is not in any way aff
     <main class="flex w-96 flex-col gap-6 font-bold">
       <img src="/images/OneKey_Wordmark.png" alt="VLC OneKey" />
       <article
-        class="justify-center flex h-[19rem] flex-col gap-4 rounded-3xl bg-[#2196f3] p-8 text-center"
+        class="flex h-[19rem] flex-col justify-center gap-4 rounded-3xl bg-[#2196f3] p-8 text-center"
       >
-        <p>
+        <p id="header">
           Sign in with your Discord account, and then verify your VLC Gmail.
         </p>
-        <div class="flex gap-8 flex-col" id="verify_container">
-          <% if (discordCompleted) { %>
-          <button class="bg-[#008037] w-full flex justify-center items-center gap-4 rounded-2xl h-[4.5rem] py-4">
-            <span class="material-symbols-outlined !text-[48px]">
-              check
-            </span>
-            <img src="/images/discord.png" alt="Discord" class="text-3xl w-auto h-full">
+        <div class="flex flex-col gap-8" id="verify_container">
+          <a href="<%= authUrl %>">
+            <button
+              class="flex h-[4.5rem] w-full justify-center rounded-2xl bg-[#2c2f33] py-4"
+            >
+              <img
+                src="/images/discord.png"
+                alt="Discord"
+                class="h-full w-auto text-3xl"
+              />
+            </button>
+          </a>
+          <button
+            class="flex h-[4.5rem] w-full justify-center rounded-2xl bg-[#2c2f33] py-4"
+            disabled
+          >
+            <img
+              src="/images/google.png"
+              alt="Google"
+              class="h-full w-auto text-3xl"
+            />
           </button>
-          <button class="bg-[#2c2f33] w-full flex justify-center rounded-2xl h-[4.5rem] py-4" onclick="startGoogleVerification();">
-            <img src="/images/google.png" alt="Discord" class="text-3xl w-auto h-full">
-          </button>
-          <% } %>
         </div>
-        <form class="h-full flex-col justify-around hidden" id="google_container" onsubmit="emailSubmit(event)">
+        <form
+          class="hidden h-full flex-col justify-around"
+          id="google_container"
+          onsubmit="emailSubmit(event)"
+        >
           <input
             class="w-full rounded-2xl bg-[#2c2f33] px-8 py-6 text-white outline-none"
             type="email"
             name="email"
-            default="123@gmail.com"
-            placeholder="Enter your email"
+            placeholder="tljdoe123@virtuallearning.ca"
             required
           />
+          <button class="rounded-2xl bg-[#2c2f33] px-4 py-3" type="submit">
+            Send Code
+          </button>
+        </form>
+        <form
+          class="hidden h-full flex-col justify-around"
+          id="code_container"
+          onsubmit="codeSubmit(event)"
+        >
+          <div class="w-full">
+            <input
+              type="tel"
+              class="code_input"
+              minlength="1"
+              maxlength="1"
+              required
+            />
+            <input
+              type="tel"
+              class="code_input"
+              minlength="1"
+              maxlength="1"
+              required
+            />
+            <input
+              type="tel"
+              class="code_input"
+              minlength="1"
+              maxlength="1"
+              required
+            />
+            <input
+              type="tel"
+              class="code_input"
+              minlength="1"
+              maxlength="1"
+              required
+            />
+            <input
+              type="tel"
+              class="code_input"
+              minlength="1"
+              maxlength="1"
+              required
+            />
+            <input
+              type="tel"
+              class="code_input"
+              minlength="1"
+              maxlength="1"
+              required
+            />
+          </div>
           <button class="rounded-2xl bg-[#2c2f33] px-4 py-3" type="submit">
             Verify
           </button>
         </form>
       </article>
-      <div class="bg-[#db3236] px-8 py-6 rounded-2xl hidden" id="error-card">
+      <div class="hidden rounded-2xl bg-[#db3236] px-8 py-6" id="error-card">
         <p id="error"></p>
       </div>
     </main>

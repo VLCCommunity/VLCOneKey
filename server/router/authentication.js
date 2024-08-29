@@ -1,185 +1,108 @@
 const express = require('express');
-const crypto = require('crypto');
+const userVerify = require('../../discord/userVerify');
+const { database } = require('../..');
+const {
+  generateVerificationCode,
+  sendVerificationEmail,
+  emailToName,
+  fetchDiscordUser,
+  checkExistingUser,
+  validateEmailFormat,
+  validateCodeFormat,
+} = require('../utils');
 
 const router = express.Router();
 
-const { database, discordBot } = require('../..');
-const userVerify = require('../../discord/userVerify');
-const fetch = require('node-fetch');
-
-router.get('/authresponse', (req, res) => {
-  res.cookie('authcode', req.query.code);
-  res.redirect('/');
-});
-
-// index & Discord sign in
 router.get('/', async (req, res) => {
-  // let error, verified;
-
-  // // if discord oauth code
-  // if (req.query.code) {
-  //   const state = await statesCollection.findOne({ state: req.query.state });
-
-  //   // verify state
-  //   if (!state) {
-  //     error = "Missing or invalid state";
-  //   } else {
-  //     // get oauth token from discord using code
-  //     let response = await fetch("https://discord.com/api/oauth2/token", {
-  //       method: "POST",
-  //       body: new URLSearchParams({
-  //         client_id: "919271957051105311",
-  //         client_secret: process.env["DISCORD_SECRET"],
-  //         grant_type: "authorization_code",
-  //         code: req.query.code,
-  //         redirect_uri: "https://vlconekey.com",
-  //       }).toString(),
-  //       headers: {
-  //         "Content-Type": "application/x-www-form-urlencoded",
-  //       },
-  //     });
-
-  //     // json response
-  //     let data = await response.json();
-  //     if (response.status !== 200) {
-  //       console.log(data);
-  //       error = "Invalid Discord OAuth token";
-  //     } else {
-  //       // fetch discord ID from api
-  //       response = await fetch("https://discord.com/api/users/@me", {
-  //         headers: {
-  //           Authorization: `Bearer ${data.access_token}`,
-  //         },
-  //       });
-  //       data = await response.json();
-
-  //       // check if discord already verified
-  //       discordInDB = await database.studentsCollection.findOne({
-  //         _id: data.id,
-  //       });
-  //       if (discordInDB) {
-  //         error = `${data.username}#${data.discriminator} already verified as ${discordInDB.email}!`;
-  //       } else {
-  //         // Verification is completed
-  //         try {
-  //           database.studentsCollection.insertOne({
-  //             _id: data.id,
-  //             name: state.name,
-  //             email: state.email,
-  //             timestamp: Date.now(),
-  //           });
-  //           userVerify(data.id, state.name);
-  //           console.log(`🔓 Verified ${data.id} as ${state.name}.`);
-  //         } catch (error) {
-  //           discordBot.error(
-  //             `❌ Failed to verify ${data.id} as ${state.name}.`
-  //           );
-  //         }
-  //         verified = true;
-
-  //         // delete all previous user states
-  //         statesCollection.deleteMany({ email: state.email });
-  //       }
-  //     }
-  //   }
-
-  //   if (error) {
-  //     res.statusCode = 405;
-  //   }
-  // }
-
-  const discordCompleted = req.cookies.authcode !== undefined;
-
-  console.log('Discord Completed:', discordCompleted);
-
   res.render('index', {
-    discordCompleted,
-    error: '',
+    authUrl: process.env.DISCORD_OAUTH_URL,
   });
 });
-
-const sendVerificationEmail = async (email, code) => {
-  const response = await fetch('https://api.smtp2go.com/v3/email/send', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Smtp2go-Api-Key': process.env.SMTP2GO_API_KEY,
-      accept: 'application/json',
-    },
-    body: JSON.stringify({
-      sender: 'VLC OneKey <verify@vlconekey.com>',
-      to: [email],
-      subject: 'Your verification code',
-      html_body: `Your verification code is: ${code}<br><br>VLC OneKey | Verified once, verified forever.`,
-    }),
-  });
-
-  return await response.json();
-};
-
-const generateVerificationCode = () => {
-  // From 1 to 999999 (inclusive)
-  const n = crypto.randomInt(0, 1000000);
-
-  return n.toString().padStart(6, '0');
-};
 
 router.post('/email', async (req, res) => {
-  const email = req.body.email?.toLowerCase();
-
-  // Basic check to ensure email is present
-  if (!email) {
-    return res.json({
-      success: false,
-      message: 'Missing email field in JSON body.',
-    });
-  }
-
-  // Regular expression to validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailRegex.test(email)) {
-    return res.json({
-      success: false,
-      message: 'Invalid email format.',
-    });
-  }
-
-  // Check if the email ends with '@virtuallearning.ca'
-  // if (!email.endsWith('@virtuallearning.ca')) {
-  //   return res.json({
-  //     success: false,
-  //     message: 'You must verify your VLC (@virtuallearning.ca) email.',
-  //   });
-  // }
-
+  const accessToken = req.headers.authorization;
+  const email = req.body.email?.trim().toLowerCase();
   const verificationCode = generateVerificationCode();
-  const result = await sendVerificationEmail(email, verificationCode);
 
-  console.log(result);
+  let discordUser;
+
+  try {
+    discordUser = await fetchDiscordUser(accessToken);
+    await checkExistingUser(discordUser);
+    validateEmailFormat(email);
+    await sendVerificationEmail(email, verificationCode);
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+
+  await database.statesCollection.updateOne(
+    { _id: discordUser.id },
+    {
+      $set: {
+        _id: discordUser.id,
+        email: email,
+        verification_code: verificationCode,
+      },
+    },
+    { upsert: true },
+  );
 
   return res.json({
     success: true,
-    message: 'Email is valid!',
+    message: 'Verification code sent.',
   });
 });
 
-const emailToName = (email) => {
-  let firstInitial;
-  let lastName;
+router.post('/code', async (req, res) => {
+  const accessToken = req.headers.authorization;
+  const code = req.body.code.trim();
 
-  if (email.startsWith('tl')) {
-    firstInitial = email[2].toUpperCase();
-    lastName = email.slice(3, -22);
-  } else {
-    firstInitial = email[0].toUpperCase();
-    lastName = email.slice(1, -19);
+  let discordUser;
+
+  try {
+    discordUser = await fetchDiscordUser(accessToken);
+    validateCodeFormat(code);
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: error.message,
+    });
   }
 
-  // Capitalize the first letter of the last name
-  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+  const userState = await database.statesCollection.findOne({
+    _id: discordUser.id,
+  });
 
-  return `${firstInitial}. ${lastName}`;
-};
+  if (code !== userState.verification_code) {
+    return res.json({
+      success: false,
+      message: 'Incorrect code.',
+    });
+  }
+
+  const formattedName = emailToName(userState.email);
+  await userVerify(userState._id, formattedName);
+
+  await database.statesCollection.deleteOne({
+    _id: discordUser.id,
+  });
+
+  await database.studentsCollection.insertOne({
+    _id: discordUser.id,
+    name: formattedName,
+    email: userState.email,
+    timestamp: Date.now(),
+  });
+
+  console.log(`Verified ${discordUser.id} as ${formattedName}.`);
+
+  return res.json({
+    success: true,
+    message: 'Verified.',
+  });
+});
 
 module.exports = router;

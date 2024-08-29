@@ -1,5 +1,4 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 
 function startServer({ host, port, onSuccess }) {
   const app = express();
@@ -7,7 +6,6 @@ function startServer({ host, port, onSuccess }) {
   app.set('view engine', 'ejs');
   app.use(express.static('public'));
   app.use(express.json());
-  app.use(cookieParser());
   app.use(require('./router/authentication'));
   app.use(require('./router/redirects'));
 
