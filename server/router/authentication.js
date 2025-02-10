@@ -84,7 +84,6 @@ router.post('/code', codeRateLimiter, async (req, res) => {
   try {
     discordUser = await fetchDiscordUser(accessToken);
     validateCodeFormat(code);
-    await checkExistingEmail(userState.email);
   } catch (error) {
     return res.json({
       success: false,
@@ -105,6 +104,15 @@ router.post('/code', codeRateLimiter, async (req, res) => {
     return res.json({
       success: false,
       message: 'Incorrect code.',
+    });
+  }
+
+  try {
+    await checkExistingEmail(userState.email);
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: error.message,
     });
   }
 
